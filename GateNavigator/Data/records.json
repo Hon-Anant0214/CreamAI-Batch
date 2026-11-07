@@ -1,0 +1,226 @@
+[
+    {
+        "paper_code": "AE",
+        "paper_name": "Aerospace Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "AG",
+        "paper_name": "Agricultural Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AG_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "AR",
+        "paper_name": "Architecture and Planning",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AR_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "BM",
+        "paper_name": "Biomedical Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/BM_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "BT",
+        "paper_name": "Biotechnology",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/BT_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "CE",
+        "paper_name": "Civil Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CE_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "CH",
+        "paper_name": "Chemical Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CH_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "CS",
+        "paper_name": "Computer Science & Information\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tTechnology",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "CY",
+        "paper_name": "Chemistry",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CY_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "DA",
+        "paper_name": "Data Science & Artificial\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tIntelligence",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "EC",
+        "paper_name": "Electronics & Communication\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tEngineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EC_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "EE",
+        "paper_name": "Electrical Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EE_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "ES",
+        "paper_name": "Environmental Science & Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ES_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "EY",
+        "paper_name": "Ecology and Evolution",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EY_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "GE",
+        "paper_name": "Geomatics Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GE_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "GG",
+        "paper_name": "Geology & Geophysics",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GG_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "IN",
+        "paper_name": "Instrumentation Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/IN_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "MA",
+        "paper_name": "Mathematics",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MA_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "ME",
+        "paper_name": "Mechanical Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ME_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "MN",
+        "paper_name": "Mining Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MN_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "MT",
+        "paper_name": "Metallurgical Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MT_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "NM",
+        "paper_name": "Naval Architecture & Marine\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tEngineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/NM_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "PE",
+        "paper_name": "Petroleum Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PE_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "PH",
+        "paper_name": "Physics",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PH_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "PI",
+        "paper_name": "Production & Industrial Engineering",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PI_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "RA",
+        "paper_name": "Robotics & Automation",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/RA_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "ST",
+        "paper_name": "Statistics",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ST_GATE2027_Syllabus.pdf"
+    },
+    {
+        "paper_code": "GA",
+        "paper_name": "General Aptitude (GA)",
+        "ga_marks": 15,
+        "subject_marks": 85,
+        "syllabus_sections": [],
+        "syllabus_url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GA_GATE2027_Syllabus.pdf"
+    }
+]
