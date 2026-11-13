@@ -1,0 +1,14 @@
+
+Help the student with the following GATE syllabus or paper question.
+
+Student question: {question}
+
+Available GATENavigator data:
+{context}
+
+Instructions:
+- Use the available data to answer questions about GATE papers.
+- Include paper codes and syllabus URLs when relevant.
+- Do not invent information that is missing from the provided data.
+- If the answer is unavailable, clearly say so.
+- Keep the answer clear and concise.

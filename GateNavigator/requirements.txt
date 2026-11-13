@@ -5,3 +5,5 @@ fastapi
 uvicorn
 pandas
 scikit-learn
+groq
+python-dotenv
