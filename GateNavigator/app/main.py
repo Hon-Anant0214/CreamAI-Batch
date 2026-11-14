@@ -4,6 +4,7 @@ from app.llm import generate_response
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from app.smart_search import smart_search
+from typing import Literal
 
 from app.records import load_records, search, get_by_id
 
@@ -14,6 +15,8 @@ class QuestionRequest(BaseModel):
     question: str
 class ChatRequest(BaseModel):
     question: str
+    task: Literal["explain", "syllabus"] = "syllabus"
+    prompt_version: Literal["v1", "v2"] = "v2"
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROMPT_DIR = BASE_DIR / "prompts"
 
@@ -60,20 +63,58 @@ def ask_question(request: QuestionRequest):
         "question": request.question,
         "message": "Your question has been received."
     }
+
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    system_prompt = load_prompt("system_prompt.txt")
+    # Load the main GATENavigator system prompt
+    # Select system prompt based on prompt version
+    if request.prompt_version == "v1":
+        system_prompt = load_prompt("system_prompt_v1.txt")
+    else:
+        system_prompt = load_prompt("system_prompt.txt")
 
-    user_prompt = f"""
-    Student question: {request.question}
+    # Select the appropriate task prompt
+    if request.task == "explain":
 
-    Answer the student as GATENavigator.
-    Return only valid JSON with answer, confidence, and follow_up.
-    """
+        task_prompt = load_prompt("explain_topic.txt")
 
-    response = generate_response(system_prompt, user_prompt)
+        user_prompt = task_prompt.format(
+            topic=request.question
+        )
 
+    else:
+
+        task_prompt = load_prompt("syllabus_help.txt")
+
+        # Load available GATE paper records
+        records = load_records()
+
+        # Prepare records as context for the LLM
+        context = "\n".join(
+            [
+                f"Paper Code: {r['paper_code']}, "
+                f"Paper Name: {r['paper_name']}, "
+                f"GA Marks: {r['ga_marks']}, "
+                f"Subject Marks: {r['subject_marks']}, "
+                f"Syllabus Sections: {r['syllabus_sections']}, "
+                f"Syllabus URL: {r['syllabus_url']}"
+                for r in records
+            ]
+        )
+
+        user_prompt = task_prompt.format(
+            question=request.question,
+            context=context
+        )
+
+    # Generate response using Groq
+    response = generate_response(
+        system_prompt,
+        user_prompt
+    )
+
+    # Convert LLM response into JSON
     try:
         result = json.loads(response)
 

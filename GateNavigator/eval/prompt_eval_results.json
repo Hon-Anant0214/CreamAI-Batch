@@ -1,0 +1,182 @@
+[
+    {
+        "question_id": "Q1",
+        "question": "What GATE 2027 papers are available in GATENavigator?",
+        "prompt_version": "v1",
+        "answer": "**GATE 2027 papers available in GATENavigator**\n\n| Paper Code | Paper Name | Syllabus URL |\n|------------|------------|--------------|\n| AE | Aerospace Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf |\n| AG | Agricultural Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AG_GATE2027_Syllabus.pdf |\n| AR | Architecture and Planning | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AR_GATE2027_Syllabus.pdf |\n| BM | Biomedical Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/BM_GATE2027_Syllabus.pdf |\n| BT | Biotechnology | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/BT_GATE2027_Syllabus.pdf |\n| CE | Civil Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CE_GATE2027_Syllabus.pdf |\n| CH | Chemical Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CH_GATE2027_Syllabus.pdf |\n| CS | Computer Science & Information Technology | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf |\n| CY | Chemistry | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CY_GATE2027_Syllabus.pdf |\n| DA | Data Science & Artificial Intelligence | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf |\n| EC | Electronics & Communication Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EC_GATE2027_Syllabus.pdf |\n| EE | Electrical Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EE_GATE2027_Syllabus.pdf |\n| ES | Environmental Science & Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ES_GATE2027_Syllabus.pdf |\n| EY | Ecology and Evolution | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EY_GATE2027_Syllabus.pdf |\n| GE | Geomatics Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GE_GATE2027_Syllabus.pdf |\n| GG | Geology & Geophysics | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GG_GATE2027_Syllabus.pdf |\n| IN | Instrumentation Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/IN_GATE2027_Syllabus.pdf |\n| MA | Mathematics | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MA_GATE2027_Syllabus.pdf |\n| ME | Mechanical Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ME_GATE2027_Syllabus.pdf |\n| MN | Mining Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MN_GATE2027_Syllabus.pdf |\n| MT | Metallurgical Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MT_GATE2027_Syllabus.pdf |\n| NM | Naval Architecture & Marine Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/NM_GATE2027_Syllabus.pdf |\n| PE | Petroleum Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PE_GATE2027_Syllabus.pdf |\n| PH | Physics | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PH_GATE2027_Syllabus.pdf |\n| PI | Production & Industrial Engineering | https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PI_GATE2027_Syllabus.pdf |\n|",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q1",
+        "question": "What GATE 2027 papers are available in GATENavigator?",
+        "prompt_version": "v2",
+        "answer": "The following GATE 2027 papers are available in GATENavigator:\n\n| Paper Code | Paper Name |\n|------------|-----------------------------------------------|\n| AE | Aerospace Engineering |\n| AG | Agricultural Engineering |\n| AR | Architecture and Planning |\n| BM | Biomedical Engineering |\n| BT | Biotechnology |\n| CE | Civil Engineering |\n| CH | Chemical Engineering |\n| CS | Computer Science & Information Technology |\n| CY | Chemistry |\n| DA | Data Science & Artificial Intelligence |\n| EC | Electronics & Communication Engineering |\n| EE | Electrical Engineering |\n| ES | Environmental Science & Engineering |\n| EY | Ecology and Evolution |\n| GE | Geomatics Engineering |\n| GG | Geology & Geophysics |\n| IN | Instrumentation Engineering |\n| MA | Mathematics |\n| ME | Mechanical Engineering |\n| MN | Mining Engineering |\n| MT | Metallurgical Engineering |\n| NM | Naval Architecture & Marine Engineering |\n| PE | Petroleum Engineering |\n| PH | Physics |\n| PI | Production & Industrial Engineering |\n| RA | Robotics & Automation |\n| ST | Statistics |\n| GA | General Aptitude (GA) |\n\nFor each paper, you can find the detailed syllabus PDF at the provided URLs in the data set.",
+        "confidence": 1.0,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q2",
+        "question": "What is the paper code for Computer Science and Information Technology?",
+        "prompt_version": "v1",
+        "answer": "The paper code for **Computer Science & Information Technology** is **CS**.  \nYou can find the detailed syllabus here:  \n[CS GATE 2027 Syllabus](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf)",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q2",
+        "question": "What is the paper code for Computer Science and Information Technology?",
+        "prompt_version": "v2",
+        "answer": "",
+        "confidence": "",
+        "follow_up": "",
+        "status": "Failed: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8000/chat"
+    },
+    {
+        "question_id": "Q3",
+        "question": "How many marks are allocated to General Aptitude and the subject section in GATE?",
+        "prompt_version": "v1",
+        "answer": "**Marks allocation in GATE**\n\n| Section | Marks | Paper Code | Syllabus URL |\n|---------|-------|------------|--------------|\n| General Aptitude (GA) | **15** | GA | [GA Syllabus](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GA_GATE2027_Syllabus.pdf) |\n| Subject‑specific questions | **85** | – | – |\n\nSo, in every GATE paper, **15 marks** are allotted to the General Aptitude section and **85 marks** to the subject‑specific section.",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q3",
+        "question": "How many marks are allocated to General Aptitude and the subject section in GATE?",
+        "prompt_version": "v2",
+        "answer": "In every GATE paper, including the General Aptitude (GA) paper, 15 marks are allocated to the General Aptitude section and 85 marks to the subject-specific section.",
+        "confidence": 1.0,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q4",
+        "question": "Show me the details of the Computer Science (CS) paper.",
+        "prompt_version": "v1",
+        "answer": "**Computer Science & Information Technology (CS) – GATE 2027**\n\n| Item | Details |\n|------|---------|\n| **Paper Code** | CS |\n| **Paper Name** | Computer Science & Information Technology |\n| **GA Marks** | 15 |\n| **Subject Marks** | 85 |\n| **Syllabus URL** | [CS Syllabus PDF](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf) |\n\n*No syllabus sections are listed in the provided data.*",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q4",
+        "question": "Show me the details of the Computer Science (CS) paper.",
+        "prompt_version": "v2",
+        "answer": "Here are the details for the Computer Science & Information Technology paper:\n- **Paper Code**: CS\n- **Paper Name**: Computer Science & Information Technology\n- **General Aptitude (GA) Marks**: 15\n- **Subject Marks**: 85\n- **Syllabus URL**: https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf\n\nThe syllabus sections are not listed in the provided data, but you can view the full syllabus by clicking the URL above.",
+        "confidence": 0.95,
+        "follow_up": "Would you like help understanding any specific topics covered in the CS syllabus?",
+        "status": "Success"
+    },
+    {
+        "question_id": "Q5",
+        "question": "What is the syllabus PDF link for Data Science and Artificial Intelligence (DA)?",
+        "prompt_version": "v1",
+        "answer": "The syllabus PDF for **Data Science & Artificial Intelligence (DA)** can be found at:\n\n- **Paper Code:** DA  \n- **Syllabus URL:** [https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf)",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q5",
+        "question": "What is the syllabus PDF link for Data Science and Artificial Intelligence (DA)?",
+        "prompt_version": "v2",
+        "answer": "The syllabus PDF for Data Science & Artificial Intelligence (DA) can be found at: https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf",
+        "confidence": 0.99,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q6",
+        "question": "What was the official GATE 2027 cutoff score for Computer Science and Information Technology?",
+        "prompt_version": "v1",
+        "answer": "I’m sorry, but the cutoff score for GATE 2027 in Computer Science & Information Technology is not included in the data you provided.  \n\nFor reference, the paper code and syllabus link are:\n\n- **Paper Code:** CS  \n- **Syllabus URL:** https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q6",
+        "question": "What was the official GATE 2027 cutoff score for Computer Science and Information Technology?",
+        "prompt_version": "v2",
+        "answer": "I’m sorry, but the official GATE 2027 cutoff score for Computer Science & Information Technology is not available in the data you provided.",
+        "confidence": 0.0,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q7",
+        "question": "Find the GATE paper with the code AE.",
+        "prompt_version": "v1",
+        "answer": "**GATE Paper Code AE**\n\n| Detail | Information |\n|--------|-------------|\n| **Paper Code** | AE |\n| **Paper Name** | Aerospace Engineering |\n| **GA Marks** | 15 |\n| **Subject Marks** | 85 |\n| **Syllabus URL** | [AE_Gate2027_Syllabus.pdf](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf) |\n\nSo, the GATE paper with code **AE** is the **Aerospace Engineering** paper.",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q7",
+        "question": "Find the GATE paper with the code AE.",
+        "prompt_version": "v2",
+        "answer": "The GATE paper with the code **AE** is **Aerospace Engineering**. It carries 15 marks for General Aptitude (GA) and 85 marks for the subject portion. You can view the detailed syllabus here: https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf",
+        "confidence": 0.99,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q8",
+        "question": "How many GATE papers are currently stored in GATENavigator?",
+        "prompt_version": "v1",
+        "answer": "There are **28 GATE papers** currently stored in GATENavigator.",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q8",
+        "question": "How many GATE papers are currently stored in GATENavigator?",
+        "prompt_version": "v2",
+        "answer": "There are 28 GATE papers currently stored in GATENavigator.",
+        "confidence": 0.99,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q9",
+        "question": "What is the paper code for Electronics and Communication Engineering?",
+        "prompt_version": "v1",
+        "answer": "The paper code for **Electronics and Communication Engineering** is **EC**.  \nSyllabus URL: https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EC_GATE2027_Syllabus.pdf",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q9",
+        "question": "What is the paper code for Electronics and Communication Engineering?",
+        "prompt_version": "v2",
+        "answer": "The paper code for Electronics and Communication Engineering is **EC**.",
+        "confidence": 1.0,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q10",
+        "question": "Can you show me the syllabus URL for Aerospace Engineering?",
+        "prompt_version": "v1",
+        "answer": "**Aerospace Engineering (Paper Code: AE)**  \nSyllabus URL: [https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf](https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf)",
+        "confidence": 0.5,
+        "follow_up": null,
+        "status": "Success"
+    },
+    {
+        "question_id": "Q10",
+        "question": "Can you show me the syllabus URL for Aerospace Engineering?",
+        "prompt_version": "v2",
+        "answer": "Sure! The syllabus for Aerospace Engineering (Paper Code: AE) can be found at the following URL:\n\nhttps://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/AE_GATE2027_Syllabus.pdf",
+        "confidence": 0.99,
+        "follow_up": null,
+        "status": "Success"
+    }
+]
