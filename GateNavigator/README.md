@@ -124,3 +124,50 @@ GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 Never commit the actual `.env` file to GitHub.
+
+
+## Day 7: Semantic Search and Vector Database
+
+### Features Implemented
+
+- PDF document extraction and text chunking using PyPDF.
+- Document chunks store source, page number, and title metadata.
+- Text embeddings generated using Sentence Transformers.
+- Semantic search implemented using cosine similarity.
+- Evaluated semantic search using 10 GATE questions.
+- Evaluation results saved in `eval/search_results.md`.
+- Persistent vector storage implemented using ChromaDB.
+- FastAPI endpoint added: `GET /search/semantic?q=`.
+- ChromaDB database stored locally in `chroma_db/`.
+
+### Technologies Used
+
+- Python
+- PyPDF
+- Sentence Transformers
+- all-MiniLM-L6-v2
+- Scikit-learn
+- ChromaDB
+- FastAPI
+
+### How to Run
+
+Start the API:
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+Open Swagger documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Use `GET /search/semantic` to search the indexed documents.
+
+To rebuild the vector database:
+
+```bash
+python -m app.vectorstore
+```

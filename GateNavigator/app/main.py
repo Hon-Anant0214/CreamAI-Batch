@@ -5,6 +5,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from app.smart_search import smart_search
 from typing import Literal
+from app.smart_search import smart_search
+from app.vectorstore import search_documents
 
 from app.records import load_records, search, get_by_id
 
@@ -26,7 +28,25 @@ def load_prompt(filename):
 
     with open(prompt_path, "r", encoding="utf-8") as file:
         return file.read()
-        
+@app.get("/search")
+def search_records(q: str):
+    records = load_records()
+    results = smart_search(records, q)
+    return results
+@app.get("/search/semantic")
+def semantic_search_api(q: str):
+    try:
+        results = search_documents(q)
+        return {
+            "question": q,
+            "total_results": len(results),
+            "results": results
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Semantic search failed: {str(e)}"
+        )        
 @app.get("/health")
 def health():
     return {"status": "ok", "message": "GATENavigator API is running"}
