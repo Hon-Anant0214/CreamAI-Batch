@@ -68,3 +68,59 @@ python -m analysis.explore
 - Scikit-learn
 - TF-IDF
 - Cosine Similarity
+
+
+## Day 6 – LLM Integration and Prompt Engineering
+
+### Features Implemented
+
+- Integrated Groq Cloud LLM API.
+- Created an LLM provider wrapper in `app/llm.py`.
+- Added the `POST /chat` API endpoint.
+- Implemented two system prompt versions (V1 and V2).
+- Created separate task prompts for:
+  - Explaining technical topics.
+  - Answering GATE syllabus and paper-related questions.
+- Implemented structured JSON responses containing:
+  - `answer`
+  - `confidence`
+  - `follow_up`
+- Stored API configuration using `.env`.
+- Added `.env.example` for environment configuration.
+
+### Prompt Evaluation
+
+Created an automated evaluation script to test 10 GATENavigator questions using both prompt versions.
+
+Evaluation files:
+- `eval/run_prompt_eval.py`
+- `eval/prompt_compare.md`
+- `eval/prompt_eval_results.json`
+- `eval/prompt_eval_results.csv`
+
+### Run the Application
+
+Start the FastAPI server:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Use the `POST /chat` endpoint to ask questions.
+
+### Environment Configuration
+
+Create a `.env` file in the project root and configure:
+
+```text
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-20b
+```
+
+Never commit the actual `.env` file to GitHub.
