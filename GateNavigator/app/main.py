@@ -1,25 +1,49 @@
+
 import json
 from pathlib import Path
-from app.llm import generate_response
+from typing import Literal
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from app.smart_search import smart_search
-from typing import Literal
+
+from langgraph.types import Command
+
+from app.llm import generate_response
 from app.smart_search import smart_search
 from app.vectorstore import search_documents
 from app.rag import answer_question
+from app.records import load_records, get_by_id
+from app.graph import agent_graph
 
-from app.records import load_records, search, get_by_id
 
 app = FastAPI(title="GATENavigator API")
 
 
+# ---------------------------------
+# Request Models
+# ---------------------------------
+
 class QuestionRequest(BaseModel):
     question: str
+
+
 class ChatRequest(BaseModel):
     question: str
     task: Literal["explain", "syllabus"] = "syllabus"
     prompt_version: Literal["v1", "v2"] = "v2"
+
+
+class AgentRequest(BaseModel):
+    question: str | None = None
+    marks_data: dict[str, int] | None = None
+    thread_id: str = "gate-api-session-1"
+    approval: bool | None = None
+
+
+# ---------------------------------
+# Paths and Prompt Loading
+# ---------------------------------
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROMPT_DIR = BASE_DIR / "prompts"
 
@@ -29,29 +53,23 @@ def load_prompt(filename):
 
     with open(prompt_path, "r", encoding="utf-8") as file:
         return file.read()
-@app.get("/search")
-def search_records(q: str):
-    records = load_records()
-    results = smart_search(records, q)
-    return results
-@app.get("/search/semantic")
-def semantic_search_api(q: str):
-    try:
-        results = search_documents(q)
-        return {
-            "question": q,
-            "total_results": len(results),
-            "results": results
-        }
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Semantic search failed: {str(e)}"
-        )        
+
+
+# ---------------------------------
+# Health Endpoint
+# ---------------------------------
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "message": "GATENavigator API is running"}
+    return {
+        "status": "ok",
+        "message": "GATENavigator API is running"
+    }
 
+
+# ---------------------------------
+# Records Endpoints
+# ---------------------------------
 
 @app.get("/records")
 def get_records(limit: int = 28):
@@ -65,10 +83,17 @@ def get_record(id: str):
     record = get_by_id(records, id)
 
     if record is None:
-        raise HTTPException(status_code=404, detail="Paper not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Paper not found"
+        )
 
     return record
 
+
+# ---------------------------------
+# Search Endpoints
+# ---------------------------------
 
 @app.get("/search")
 def search_records(q: str):
@@ -76,6 +101,28 @@ def search_records(q: str):
     results = smart_search(records, q)
     return results
 
+
+@app.get("/search/semantic")
+def semantic_search_api(q: str):
+    try:
+        results = search_documents(q)
+
+        return {
+            "question": q,
+            "total_results": len(results),
+            "results": results
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Semantic search failed: {str(e)}"
+        )
+
+
+# ---------------------------------
+# Questions Endpoint
+# ---------------------------------
 
 @app.post("/questions")
 def ask_question(request: QuestionRequest):
@@ -85,17 +132,19 @@ def ask_question(request: QuestionRequest):
         "message": "Your question has been received."
     }
 
+
+# ---------------------------------
+# Chat Endpoint
+# ---------------------------------
+
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    # Load the main GATENavigator system prompt
-    # Select system prompt based on prompt version
     if request.prompt_version == "v1":
         system_prompt = load_prompt("system_prompt_v1.txt")
     else:
         system_prompt = load_prompt("system_prompt.txt")
 
-    # Select the appropriate task prompt
     if request.task == "explain":
 
         task_prompt = load_prompt("explain_topic.txt")
@@ -108,34 +157,28 @@ def chat(request: ChatRequest):
 
         task_prompt = load_prompt("syllabus_help.txt")
 
-        # Load available GATE paper records
         records = load_records()
 
-        # Prepare records as context for the LLM
-        context = "\n".join(
-            [
-                f"Paper Code: {r['paper_code']}, "
-                f"Paper Name: {r['paper_name']}, "
-                f"GA Marks: {r['ga_marks']}, "
-                f"Subject Marks: {r['subject_marks']}, "
-                f"Syllabus Sections: {r['syllabus_sections']}, "
-                f"Syllabus URL: {r['syllabus_url']}"
-                for r in records
-            ]
-        )
+        context = "\n".join([
+            f"Paper Code: {r['paper_code']}, "
+            f"Paper Name: {r['paper_name']}, "
+            f"GA Marks: {r['ga_marks']}, "
+            f"Subject Marks: {r['subject_marks']}, "
+            f"Syllabus Sections: {r['syllabus_sections']}, "
+            f"Syllabus URL: {r['syllabus_url']}"
+            for r in records
+        ])
 
         user_prompt = task_prompt.format(
             question=request.question,
             context=context
         )
 
-    # Generate response using Groq
     response = generate_response(
         system_prompt,
         user_prompt
     )
 
-    # Convert LLM response into JSON
     try:
         result = json.loads(response)
 
@@ -146,20 +189,94 @@ def chat(request: ChatRequest):
         }
 
     except (json.JSONDecodeError, KeyError, TypeError):
+
         return {
             "answer": response,
             "confidence": 0.5,
             "follow_up": None
         }
+
+
+# ---------------------------------
+# RAG Endpoint
+# ---------------------------------
+
 @app.post("/ask")
 def ask_rag_question(request: QuestionRequest):
+
     try:
         result = answer_question(request.question)
-
         return result
 
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=f"RAG question answering failed: {str(e)}"
+        )
+
+
+# ---------------------------------
+# LangGraph Agent Endpoint
+# ---------------------------------
+
+@app.post("/agent")
+def run_agent(request: AgentRequest):
+
+    config = {
+        "configurable": {
+            "thread_id": request.thread_id
+        }
+    }
+
+    try:
+
+        # Resume after student approval or rejection
+        if request.approval is not None:
+
+            response = agent_graph.invoke(
+                Command(resume=request.approval),
+                config=config
+            )
+
+        else:
+
+            if not request.question:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Question is required for a new agent request."
+                )
+
+            response = agent_graph.invoke(
+                {
+                    "question": request.question,
+                    "marks_data": request.marks_data or {}
+                },
+                config=config
+            )
+
+        # Check whether the graph is waiting for approval
+        if "__interrupt__" in response:
+
+            approval_request = response["__interrupt__"][0].value
+
+            return {
+                "status": "approval_required",
+                "thread_id": request.thread_id,
+                "approval_request": approval_request
+            }
+
+        return {
+            "status": "completed",
+            "thread_id": request.thread_id,
+            "result": response.get("result"),
+            "history": response.get("history", [])
+        }
+
+    except HTTPException:
+        raise
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Agent execution failed: {str(e)}"
         )
