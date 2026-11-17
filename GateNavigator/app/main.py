@@ -7,6 +7,7 @@ from app.smart_search import smart_search
 from typing import Literal
 from app.smart_search import smart_search
 from app.vectorstore import search_documents
+from app.rag import answer_question
 
 from app.records import load_records, search, get_by_id
 
@@ -150,3 +151,15 @@ def chat(request: ChatRequest):
             "confidence": 0.5,
             "follow_up": None
         }
+@app.post("/ask")
+def ask_rag_question(request: QuestionRequest):
+    try:
+        result = answer_question(request.question)
+
+        return result
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"RAG question answering failed: {str(e)}"
+        )

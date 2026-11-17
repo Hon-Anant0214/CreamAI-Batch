@@ -1,0 +1,108 @@
+
+[
+  {
+    "id": 1,
+    "question": "What GATE 2027 papers are available in GATENavigator?",
+    "expected_answer": "GATENavigator currently stores 28 paper records.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 2,
+    "question": "What is the paper code for Computer Science and Information Technology?",
+    "expected_answer": "CS",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 3,
+    "question": "How many marks are allocated to General Aptitude and the subject section in GATE?",
+    "expected_answer": "General Aptitude has 15 marks and the subject section has 85 marks.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 4,
+    "question": "Show me the details of the Computer Science paper.",
+    "expected_answer": "The paper is Computer Science and Information Technology, code CS.",
+    "expected_source": "CS_syllabus.pdf",
+    "answerable": true
+  },
+  {
+    "id": 5,
+    "question": "What is the syllabus PDF link for Data Science and Artificial Intelligence?",
+    "expected_answer": "The DA syllabus PDF URL is stored in the DA paper record.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 6,
+    "question": "What was the official GATE 2027 cutoff score for Computer Science and Information Technology?",
+    "expected_answer": "I don't know",
+    "expected_source": null,
+    "answerable": false
+  },
+  {
+    "id": 7,
+    "question": "Find the GATE paper with the code AE.",
+    "expected_answer": "AE represents Aerospace Engineering.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 8,
+    "question": "How many GATE papers are currently stored in GATENavigator?",
+    "expected_answer": "There are 28 paper records.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 9,
+    "question": "What is the paper code for Electronics and Communication Engineering?",
+    "expected_answer": "EC",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 10,
+    "question": "Can you show me the syllabus URL for Aerospace Engineering?",
+    "expected_answer": "The AE syllabus URL is stored in the AE paper record.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 11,
+    "question": "How many marks does General Aptitude carry in GATE?",
+    "expected_answer": "General Aptitude carries 15 marks.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 12,
+    "question": "How many marks are allocated to the subject-specific section?",
+    "expected_answer": "The subject-specific section carries 85 marks.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 13,
+    "question": "What does the CS paper code stand for?",
+    "expected_answer": "Computer Science and Information Technology.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 14,
+    "question": "Which GATE paper uses the code DA?",
+    "expected_answer": "Data Science and Artificial Intelligence.",
+    "expected_source": "records.json",
+    "answerable": true
+  },
+  {
+    "id": 15,
+    "question": "Which paper code is assigned to Aerospace Engineering?",
+    "expected_answer": "AE",
+    "expected_source": "records.json",
+    "answerable": true
+  }
+]

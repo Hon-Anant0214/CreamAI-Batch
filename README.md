@@ -124,3 +124,89 @@ GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 Never commit the actual `.env` file to GitHub.
+
+## Day 7: Semantic Search and Vector Database
+
+### Features Implemented
+
+- PDF document extraction and text chunking using PyPDF.
+- Document chunks store source, page number, and title metadata.
+- Text embeddings generated using Sentence Transformers.
+- Semantic search implemented using cosine similarity.
+- Evaluated semantic search using 10 GATE questions.
+- Evaluation results saved in `eval/search_results.md`.
+- Persistent vector storage implemented using ChromaDB.
+- FastAPI endpoint added: `GET /search/semantic?q=`.
+- ChromaDB database stored locally in `chroma_db/`.
+
+### Technologies Used
+
+- Python
+- PyPDF
+- Sentence Transformers
+- all-MiniLM-L6-v2
+- Scikit-learn
+- ChromaDB
+- FastAPI
+
+### How to Run
+
+Start the API:
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+Open Swagger documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Use `GET /search/semantic` to search the indexed documents.
+
+To rebuild the vector database:
+
+```bash
+python -m app.vectorstore
+
+## Day 8 – RAG Pipeline and Evaluation
+
+### RAG Implementation
+- Created `app/rag.py`.
+- Implemented question answering using retrieved document chunks.
+- Integrated Groq LLM with retrieved context.
+- Added source citations with document names and page numbers.
+- Implemented "I don't know" behavior for unanswerable questions.
+- Added POST `/ask` API endpoint.
+
+### Evaluation
+- Created `eval/eval_set.json` with 15 questions.
+- Created `eval/run_eval.py` to compare two configurations.
+
+### Configuration Comparison
+
+| Metric | Configuration A | Configuration B |
+|---|---:|---:|
+| Chunk Size | 500 | 800 |
+| Overlap | 100 | 150 |
+| Top-K | 3 | 5 |
+| Keyword Coverage | 82.7% | 80.4% |
+| Source Hit Rate | 78.6% | 78.6% |
+| Unanswerable Accuracy | 100% | 100% |
+| Combined Score | 87.1% | 86.3% |
+
+### Winning Configuration
+Configuration A was selected.
+
+- Chunk Size: 500
+- Overlap: 100
+- Top-K: 3
+- Indexed Chunks: 1065
+
+Note: The combined score is a custom average of the three evaluation metrics, not a general RAG accuracy score.
+
+### Known Limitations
+- Some questions about aggregate record counts are not answered correctly.
+- Retrieval can occasionally select unrelated document sections.
+- Further improvements to retrieval and context ranking are needed.
