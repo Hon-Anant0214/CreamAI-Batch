@@ -1,0 +1,14 @@
+[
+    {
+        "question": "What topics are in CS syllabus?",
+        "answer": "**Topics covered in the CS syllabus**\n\n- **Discrete Mathematics**  \n  - Propositional and first\u2011order logic  \n  - Sets, relations, functions  \n  - Partial orders and lattices  \n  - Monoids, groups  \n\n- **Graphs**  \n  - Connectivity  \n  - Matching  \n  - Colouring  \n\n- **Combinatorics**  \n  - Counting  \n  - Recurrence relations  \n  - Generating functions  \n\n- **Linear Algebra**  \n  - Matrices  \n  - Determinants  \n  - System of linear equations  \n  - Eigenvalues and eigenvectors  \n  - LU decomposition  \n\n- **Calculus**  \n  - Limits (and related concepts)  \n\n[Source: CS_syllabus.pdf, Page: 1]",
+        "feedback": "negative",
+        "timestamp": "2026-11-18T22:03:19.648851"
+    },
+    {
+        "question": "\"What topics are in CS syllabus?",
+        "answer": "The CS syllabus covers the following topics:\n\n- **Discrete Mathematics**: propositional and first\u2011order logic, sets, relations, functions, partial orders, lattices, monoids, groups  \n- **Graphs**: connectivity, matching, colouring  \n- **Combinatorics**: counting, recurrence relations, generating functions  \n- **Linear Algebra**: matrices, determinants, systems of linear equations, eigenvalues and eigenvectors, LU decomposition  \n- **Calculus**: limits (and related concepts)  \n\n[Source: CS_syllabus.pdf, Page: 1]",
+        "feedback": "positive",
+        "timestamp": "2026-11-18T22:03:42.539719"
+    }
+]

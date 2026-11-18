@@ -1,0 +1,95 @@
+
+{
+    "paper_code": "CS",
+    "paper_name": "Computer Science and Information Technology",
+    "year_2026": {
+        "pdf": "https://gate2026.iitg.ac.in/doc/GATE2026_Syllabus/CS_2026_Syllabus.pdf"
+    },
+    "year_2027": {
+        "pdf": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CS_GATE2027_Syllabus.pdf"
+    },
+    "sections": [
+        {
+            "name": "Section 1: Engineering Mathematics",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 2: Digital Logic",
+            "status": "updated",
+            "added": [
+                "Algebraic technique for minimization",
+                "Karnaugh map method",
+                "Tabular method for minimization"
+            ],
+            "removed": []
+        },
+        {
+            "name": "Section 3: Computer Organization and Architecture",
+            "status": "updated",
+            "added": [
+                "Hardwired and microprogrammed control unit design",
+                "Memory interfacing",
+                "Cache memory mapping and performance"
+            ],
+            "removed": [
+                "Data-path (not explicitly listed in 2027)",
+                "Main memory and secondary storage as separately named topics (not explicitly listed in 2027)"
+            ]
+        },
+        {
+            "name": "Section 4: Programming and Data Structures",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 5: Algorithms",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 6: Theory of Computation",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 7: Compiler Design",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 8: Operating System",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 9: Databases",
+            "status": "unchanged",
+            "added": [],
+            "removed": []
+        },
+        {
+            "name": "Section 10: Computer Networks",
+            "status": "updated",
+            "added": [
+                "Performance metrics",
+                "Principles of layering"
+            ],
+            "removed": [
+                "OSI and TCP/IP protocol stacks",
+                "Framing and Ethernet bridging",
+                "Shortest-path and flooding routing",
+                "ARP, DHCP and ICMP",
+                "UDP",
+                "SMTP, FTP and Email",
+                "IPv4 addressing as a separately named topic"
+            ]
+        }
+    ]
+}

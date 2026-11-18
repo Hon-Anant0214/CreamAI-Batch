@@ -367,3 +367,19 @@ The agent requests approval before executing the calculation.
 ## Conclusion
 
 Day 9 successfully integrated a hand-written AI agent and a LangGraph-based agent into GATENavigator. The system can answer GATE syllabus questions through RAG, calculate mock-test marks, request user approval, and maintain conversation history.
+### Day 10: Streamlit UI and Syllabus Comparison
+
+Implemented a Streamlit chat interface connected to FastAPI.
+
+**Features:**
+- RAG and Agent chat modes.
+- Displays AI-generated answers and citations.
+- Human approval for agent actions.
+- Persistent thumbs-up and thumbs-down feedback.
+- Side-by-side GATE 2026 and GATE 2027 CS syllabus comparison.
+- Added and removed topic identification.
+- Direct PDF page links for syllabus topics.
+
+**Application Screenshot:**
+
+![GATENavigator Day 10 Comparison](docs/screenshots/day10_comparison.png)
