@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -23,9 +22,11 @@ def search(records, keyword):
 
     for record in records:
         text = (
-            record["paper_code"] + " " +
-            record["paper_name"] + " " +
-            " ".join(record["syllabus_sections"])
+            record["paper_code"]
+            + " "
+            + record["paper_name"]
+            + " "
+            + " ".join(record["syllabus_sections"])
         )
 
         if keyword.lower() in text.lower():

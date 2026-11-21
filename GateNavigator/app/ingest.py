@@ -1,3 +1,8 @@
+import re
+
+from pypdf import PdfReader
+
+
 def extract_syllabus_sections(pdf_path):
     sections = []
 
@@ -18,6 +23,6 @@ def extract_syllabus_sections(pdf_path):
 
         return list(dict.fromkeys(sections))
 
-    except Exception as error:
+    except (OSError, ValueError) as error:
         print("PDF extraction error:", error)
         return []

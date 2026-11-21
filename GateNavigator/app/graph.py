@@ -1,16 +1,16 @@
-
 from typing import TypedDict
-from langgraph.graph import StateGraph, START, END
+
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.types import interrupt, Command
+from langgraph.graph import END, START, StateGraph
+from langgraph.types import Command, interrupt
 
 from app.rag import answer_question
 from app.tools import gate_marks_calculator
 
-
 # ---------------------------------
 # 1. Define Agent State
 # ---------------------------------
+
 
 class AgentState(TypedDict, total=False):
     question: str
@@ -25,6 +25,7 @@ class AgentState(TypedDict, total=False):
 # 2. Identify the Required Tool
 # ---------------------------------
 
+
 def route_request(state: AgentState):
 
     question = state["question"].lower()
@@ -33,7 +34,7 @@ def route_request(state: AgentState):
         "calculate marks",
         "marks calculator",
         "calculate my score",
-        "mock test marks"
+        "mock test marks",
     ]
 
     if any(keyword in question for keyword in marks_keywords):
@@ -54,12 +55,15 @@ def select_next_step(state: AgentState):
 # 3. Approval Node
 # ---------------------------------
 
+
 def approval_node(state: AgentState):
 
-    approval = interrupt({
-        "message": "Do you approve the GATE marks calculation?",
-        "action": "calculate_marks"
-    })
+    approval = interrupt(
+        {
+            "message": "Do you approve the GATE marks calculation?",
+            "action": "calculate_marks",
+        }
+    )
 
     return {"approved": bool(approval)}
 
@@ -76,60 +80,47 @@ def check_approval(state: AgentState):
 # 4. Marks Calculator Node
 # ---------------------------------
 
+
 def marks_node(state: AgentState):
 
     result = gate_marks_calculator(**state["marks_data"])
 
-    return {
-        "result": {
-            "tool": "gate_marks_calculator",
-            "data": result
-        }
-    }
+    return {"result": {"tool": "gate_marks_calculator", "data": result}}
 
 
 # ---------------------------------
 # 5. RAG Search Node
 # ---------------------------------
 
+
 def rag_node(state: AgentState):
 
     result = answer_question(state["question"])
 
-    return {
-        "result": {
-            "tool": "rag_search",
-            "data": result
-        }
-    }
+    return {"result": {"tool": "rag_search", "data": result}}
 
 
 # ---------------------------------
 # 6. Decline Node
 # ---------------------------------
 
+
 def decline_node(state: AgentState):
 
-    return {
-        "result": {
-            "message": "Marks calculation was not approved."
-        }
-    }
+    return {"result": {"message": "Marks calculation was not approved."}}
 
 
 # ---------------------------------
 # 7. Memory Node
 # ---------------------------------
 
+
 def memory_node(state: AgentState):
 
     history = state.get("history", [])
 
     updated_history = history + [
-        {
-            "question": state["question"],
-            "result": state["result"]
-        }
+        {"question": state["question"], "result": state["result"]}
     ]
 
     return {"history": updated_history}
@@ -151,21 +142,11 @@ workflow.add_node("memory", memory_node)
 workflow.add_edge(START, "route")
 
 workflow.add_conditional_edges(
-    "route",
-    select_next_step,
-    {
-        "approval": "approval",
-        "rag": "rag"
-    }
+    "route", select_next_step, {"approval": "approval", "rag": "rag"}
 )
 
 workflow.add_conditional_edges(
-    "approval",
-    check_approval,
-    {
-        "calculate": "calculate",
-        "decline": "decline"
-    }
+    "approval", check_approval, {"calculate": "calculate", "decline": "decline"}
 )
 
 workflow.add_edge("calculate", "memory")
@@ -185,21 +166,15 @@ agent_graph = workflow.compile(checkpointer=memory)
 # ---------------------------------
 
 if __name__ == "__main__":
-
     print("================================")
     print("    GATENavigator LangGraph")
     print("================================")
 
     thread_id = "gate-student-1"
 
-    config = {
-        "configurable": {
-            "thread_id": thread_id
-        }
-    }
+    config = {"configurable": {"thread_id": thread_id}}
 
     while True:
-
         question = input("\nAsk a question or type 'exit': ")
 
         if question.lower() in ["exit", "quit"]:
@@ -211,9 +186,8 @@ if __name__ == "__main__":
             "calculate marks",
             "marks calculator",
             "calculate my score",
-            "mock test marks"
+            "mock test marks",
         ]:
-
             print("\nEnter your mock test results:")
 
             try:
@@ -225,7 +199,7 @@ if __name__ == "__main__":
                     "msq_correct": int(input("Correct MSQs: ")),
                     "msq_wrong": int(input("Wrong MSQs: ")),
                     "nat_correct": int(input("Correct NATs: ")),
-                    "nat_wrong": int(input("Wrong NATs: "))
+                    "nat_wrong": int(input("Wrong NATs: ")),
                 }
 
             except ValueError:
@@ -233,37 +207,25 @@ if __name__ == "__main__":
                 continue
 
         try:
-
             response = agent_graph.invoke(
-                {
-                    "question": question,
-                    "marks_data": marks_data
-                },
-                config=config
+                {"question": question, "marks_data": marks_data}, config=config
             )
 
             # Handle approval request
             if "__interrupt__" in response:
-
                 print("\nApproval Required:")
                 print(response["__interrupt__"][0].value)
 
-                approval = input(
-                    "\nApprove calculation? (yes/no): "
-                ).strip().lower()
+                approval = input("\nApprove calculation? (yes/no): ").strip().lower()
 
                 response = agent_graph.invoke(
-                    Command(resume=(approval == "yes")),
-                    config=config
+                    Command(resume=(approval == "yes")), config=config
                 )
 
             print("\nAgent Response:")
             print(response.get("result"))
 
-            print(
-                "\nConversation history entries:",
-                len(response.get("history", []))
-            )
+            print("\nConversation history entries:", len(response.get("history", [])))
 
-        except Exception as error:
+        except Exception as error:  # noqa: BLE001
             print("Agent Error:", error)

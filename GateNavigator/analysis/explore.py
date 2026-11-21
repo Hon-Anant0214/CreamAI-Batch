@@ -1,6 +1,6 @@
+from pathlib import Path
 
 import pandas as pd
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_FILE = BASE_DIR / "Data" / "records.json"
@@ -16,8 +16,6 @@ print("\n1. Total number of papers:", len(df))
 print("2. Unique paper codes:", df["paper_code"].nunique())
 
 # Fact 3: Papers with syllabus sections available
-available = df["syllabus_sections"].apply(
-    lambda sections: len(sections) > 0
-).sum()
+available = df["syllabus_sections"].apply(lambda sections: len(sections) > 0).sum()
 
 print("3. Papers with syllabus sections:", available)

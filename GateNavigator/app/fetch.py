@@ -1,8 +1,8 @@
+from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
-from pathlib import Path
-from urllib.parse import urljoin
 
 # Project folders
 BASE_DIR = Path(__file__).resolve().parent.parent

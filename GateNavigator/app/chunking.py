@@ -1,5 +1,5 @@
-
 from pathlib import Path
+
 from pypdf import PdfReader
 
 
@@ -19,10 +19,13 @@ def chunk_pdf(pdf_path, chunk_size=500, overlap=100):
     chunks = []
 
     # Read document title
-    title = reader.metadata.title if reader.metadata and reader.metadata.title else pdf_path.stem
+    title = (
+        reader.metadata.title
+        if reader.metadata and reader.metadata.title
+        else pdf_path.stem
+    )
 
     for page_number, page in enumerate(reader.pages, start=1):
-
         text = page.extract_text() or ""
 
         # Clean extracted text
@@ -34,20 +37,20 @@ def chunk_pdf(pdf_path, chunk_size=500, overlap=100):
         start = 0
 
         while start < len(text):
-
             end = start + chunk_size
             chunk_text = text[start:end]
 
             if chunk_text.strip():
-
-                chunks.append({
-                    "text": chunk_text,
-                    "metadata": {
-                        "source": pdf_path.name,
-                        "page": page_number,
-                        "title": title
+                chunks.append(
+                    {
+                        "text": chunk_text,
+                        "metadata": {
+                            "source": pdf_path.name,
+                            "page": page_number,
+                            "title": title,
+                        },
                     }
-                })
+                )
 
             if end >= len(text):
                 break
@@ -58,7 +61,6 @@ def chunk_pdf(pdf_path, chunk_size=500, overlap=100):
 
 
 if __name__ == "__main__":
-
     raw_folder = Path(__file__).resolve().parent.parent / "Data" / "Raw"
 
     pdf_files = list(raw_folder.glob("*.pdf"))
@@ -66,7 +68,6 @@ if __name__ == "__main__":
     all_chunks = []
 
     for pdf_file in pdf_files:
-
         document_chunks = chunk_pdf(pdf_file)
 
         all_chunks.extend(document_chunks)

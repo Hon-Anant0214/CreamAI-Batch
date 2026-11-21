@@ -1,9 +1,7 @@
-
 from pathlib import Path
 
-from app.semantic_search import load_all_chunks, semantic_search
 from app.embed import generate_embeddings
-
+from app.semantic_search import load_all_chunks, semantic_search
 
 QUESTIONS = [
     "What GATE 2027 papers are available in GATENavigator?",
@@ -15,7 +13,7 @@ QUESTIONS = [
     "Find the GATE paper with the code AE.",
     "How many GATE papers are currently stored in GATENavigator?",
     "What is the paper code for Electronics and Communication Engineering?",
-    "Can you show me the syllabus URL for Aerospace Engineering?"
+    "Can you show me the syllabus URL for Aerospace Engineering?",
 ]
 
 
@@ -32,33 +30,30 @@ def main():
         "# GATENavigator Semantic Search Evaluation",
         "",
         "Evaluation of semantic search using 10 GATE questions.",
-        ""
+        "",
     ]
 
     for number, question in enumerate(QUESTIONS, start=1):
         print(f"\nTesting Q{number}: {question}")
 
-        results = semantic_search(
-            question, chunks, embeddings, top_k=3
-        )
+        results = semantic_search(question, chunks, embeddings, top_k=3)
 
-        output.extend([
-            f"## Q{number}: {question}",
-            ""
-        ])
+        output.extend([f"## Q{number}: {question}", ""])
 
         for rank, result in enumerate(results, start=1):
             metadata = result["metadata"]
 
-            output.extend([
-                f"### Result {rank}",
-                f"- Similarity: {result['similarity']:.4f}",
-                f"- Source: {metadata['source']}",
-                f"- Page: {metadata['page']}",
-                f"- Title: {metadata['title']}",
-                f"- Text: {result['text'][:300]}",
-                ""
-            ])
+            output.extend(
+                [
+                    f"### Result {rank}",
+                    f"- Similarity: {result['similarity']:.4f}",
+                    f"- Source: {metadata['source']}",
+                    f"- Page: {metadata['page']}",
+                    f"- Title: {metadata['title']}",
+                    f"- Text: {result['text'][:300]}",
+                    "",
+                ]
+            )
 
     project_root = Path(__file__).resolve().parent.parent
     output_file = project_root / "eval" / "search_results.md"

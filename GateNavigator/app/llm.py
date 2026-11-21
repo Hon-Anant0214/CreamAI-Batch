@@ -1,5 +1,5 @@
-
 import os
+
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -21,17 +21,11 @@ def generate_response(system_prompt, user_prompt):
     response = client.chat.completions.create(
         model=GROQ_MODEL,
         messages=[
-            {
-                "role": "system",
-                "content": system_prompt
-            },
-            {
-                "role": "user",
-                "content": user_prompt
-            }
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
         ],
         temperature=0.3,
-        max_tokens=1024
+        max_tokens=1024,
     )
 
     return response.choices[0].message.content

@@ -1,11 +1,10 @@
-
 import json
 from pathlib import Path
+
 import chromadb
 
 from app.chunking import chunk_pdf
 from app.embed import generate_embeddings
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 RAW_FOLDER = BASE_DIR / "Data" / "Raw"
@@ -15,8 +14,7 @@ DB_FOLDER = BASE_DIR / "chroma_db"
 client = chromadb.PersistentClient(path=str(DB_FOLDER))
 
 collection = client.get_or_create_collection(
-    name="gatenavigator_documents",
-    metadata={"hnsw:space": "cosine"}
+    name="gatenavigator_documents", metadata={"hnsw:space": "cosine"}
 )
 
 
@@ -25,13 +23,7 @@ def load_all_chunks(chunk_size=500, overlap=100):
 
     # Load PDF documents
     for pdf_file in RAW_FOLDER.glob("*.pdf"):
-        all_chunks.extend(
-            chunk_pdf(
-                pdf_file,
-                chunk_size=chunk_size,
-                overlap=overlap
-            )
-        )
+        all_chunks.extend(chunk_pdf(pdf_file, chunk_size=chunk_size, overlap=overlap))
 
     # Load GATE paper records
     if RECORDS_FILE.exists():
@@ -48,15 +40,17 @@ def load_all_chunks(chunk_size=500, overlap=100):
                 f"Syllabus URL: {record.get('syllabus_url', '')}"
             )
 
-            all_chunks.append({
-                "text": text,
-                "metadata": {
-                    "source": "records.json",
-                    "page": "N/A",
-                    "title": "GATE Paper Records",
-                    "paper_code": str(record.get("paper_code", ""))
+            all_chunks.append(
+                {
+                    "text": text,
+                    "metadata": {
+                        "source": "records.json",
+                        "page": "N/A",
+                        "title": "GATE Paper Records",
+                        "paper_code": str(record.get("paper_code", "")),
+                    },
                 }
-            })
+            )
 
     return all_chunks
 
@@ -66,10 +60,7 @@ def index_documents(chunk_size=500, overlap=100):
 
     print("Loading PDF documents and paper records...")
 
-    chunks = load_all_chunks(
-        chunk_size=chunk_size,
-        overlap=overlap
-    )
+    chunks = load_all_chunks(chunk_size=chunk_size, overlap=overlap)
 
     if not chunks:
         print("No document chunks found.")
@@ -92,13 +83,10 @@ def index_documents(chunk_size=500, overlap=100):
             ids.append(f"pdf_chunk_{i}")
 
     # Recreate the collection
-    client.delete_collection(
-        name="gatenavigator_documents"
-    )
+    client.delete_collection(name="gatenavigator_documents")
 
     collection = client.get_or_create_collection(
-        name="gatenavigator_documents",
-        metadata={"hnsw:space": "cosine"}
+        name="gatenavigator_documents", metadata={"hnsw:space": "cosine"}
     )
 
     print("Saving documents to ChromaDB...")
@@ -107,7 +95,7 @@ def index_documents(chunk_size=500, overlap=100):
         ids=ids,
         documents=documents,
         metadatas=metadatas,
-        embeddings=embeddings.tolist()
+        embeddings=embeddings.tolist(),
     )
 
     print("Indexing completed!")
@@ -120,17 +108,19 @@ def search_documents(question, top_k=5):
     results = collection.query(
         query_embeddings=question_embedding.tolist(),
         n_results=min(top_k, collection.count()),
-        include=["documents", "metadatas", "distances"]
+        include=["documents", "metadatas", "distances"],
     )
 
     search_results = []
 
     for i in range(len(results["ids"][0])):
-        search_results.append({
-            "text": results["documents"][0][i],
-            "metadata": results["metadatas"][0][i],
-            "similarity": 1 - results["distances"][0][i]
-        })
+        search_results.append(
+            {
+                "text": results["documents"][0][i],
+                "metadata": results["metadatas"][0][i],
+                "similarity": 1 - results["distances"][0][i],
+            }
+        )
 
     return search_results
 

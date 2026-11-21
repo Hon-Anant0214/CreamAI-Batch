@@ -1,4 +1,3 @@
-
 from app.rag import answer_question
 from app.tools import gate_marks_calculator
 
@@ -17,7 +16,6 @@ def run_agent(user_input):
 
     # Tool 1: GATE marks calculator
     if user_input.lower() in ["calculate marks", "marks calculator"]:
-
         print("Agent selected: GATE Marks Calculator")
 
         try:
@@ -31,44 +29,30 @@ def run_agent(user_input):
                 msq_correct=int(input("Correct MSQs: ")),
                 msq_wrong=int(input("Wrong MSQs: ")),
                 nat_correct=int(input("Correct NATs: ")),
-                nat_wrong=int(input("Wrong NATs: "))
+                nat_wrong=int(input("Wrong NATs: ")),
             )
 
-            return {
-                "tool": "gate_marks_calculator",
-                "result": result
-            }
+            return {"tool": "gate_marks_calculator", "result": result}
 
         except ValueError as error:
-            return {
-                "tool": "gate_marks_calculator",
-                "error": str(error)
-            }
+            return {"tool": "gate_marks_calculator", "error": str(error)}
 
     # Tool 2: RAG search
     else:
-
         print("Agent selected: RAG Search")
 
         result = answer_question(user_input)
 
-        return {
-            "tool": "rag_search",
-            "result": result
-        }
+        return {"tool": "rag_search", "result": result}
 
 
 if __name__ == "__main__":
-
     print("================================")
     print("       GATENavigator Agent")
     print("================================")
 
     while True:
-
-        user_input = input(
-            "\nAsk a GATE question or type 'calculate marks': "
-        )
+        user_input = input("\nAsk a GATE question or type 'calculate marks': ")
 
         if user_input.lower() in ["exit", "quit"]:
             print("Agent stopped.")
@@ -80,5 +64,5 @@ if __name__ == "__main__":
             print("\nAgent Response:")
             print(response)
 
-        except Exception as error:
+        except Exception as error:  # noqa: BLE001
             print("Agent Error:", error)

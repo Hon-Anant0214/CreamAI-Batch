@@ -1,6 +1,6 @@
+from pathlib import Path
 
 from bs4 import BeautifulSoup
-from pathlib import Path
 
 file_path = Path("Data/Raw/exam_papers.html")
 

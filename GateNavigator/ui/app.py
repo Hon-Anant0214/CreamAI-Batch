@@ -1,30 +1,22 @@
-
-import streamlit as st
-import requests
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+import os
+import requests
+import streamlit as st
 
 # --------------------------------
 # 1. Page Configuration
 # --------------------------------
 
-st.set_page_config(
-    page_title="GATENavigator",
-    page_icon="🎓",
-    layout="centered"
-)
+st.set_page_config(page_title="GATENavigator", page_icon="🎓", layout="centered")
 
 st.title("🎓 GATENavigator")
 st.caption("Your AI-powered GATE preparation assistant")
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
 
-FEEDBACK_FILE = (
-    Path(__file__).resolve().parent.parent
-    / "Data"
-    / "feedback.json"
-)
+FEEDBACK_FILE = Path(__file__).resolve().parent.parent / "Data" / "feedback.json"
 
 # Create feedback file if it doesn't exist
 FEEDBACK_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -37,12 +29,11 @@ if not FEEDBACK_FILE.exists():
 # 2. Feedback Function
 # --------------------------------
 
+
 def save_feedback(question, answer, feedback):
 
     try:
-        feedback_data = json.loads(
-            FEEDBACK_FILE.read_text(encoding="utf-8")
-        )
+        feedback_data = json.loads(FEEDBACK_FILE.read_text(encoding="utf-8"))
 
         if not isinstance(feedback_data, list):
             feedback_data = []
@@ -54,15 +45,12 @@ def save_feedback(question, answer, feedback):
         "question": question,
         "answer": answer,
         "feedback": feedback,
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
     }
 
     feedback_data.append(new_feedback)
 
-    FEEDBACK_FILE.write_text(
-        json.dumps(feedback_data, indent=4),
-        encoding="utf-8"
-    )
+    FEEDBACK_FILE.write_text(json.dumps(feedback_data, indent=4), encoding="utf-8")
 
 
 # --------------------------------
@@ -83,11 +71,7 @@ if "pending_approval" not in st.session_state:
 # 4. Chat Mode Selection
 # --------------------------------
 
-mode = st.radio(
-    "Choose Chat Mode",
-    ["RAG Mode", "Agent Mode"],
-    horizontal=True
-)
+mode = st.radio("Choose Chat Mode", ["RAG Mode", "Agent Mode"], horizontal=True)
 
 
 # --------------------------------
@@ -95,25 +79,18 @@ mode = st.radio(
 # --------------------------------
 
 for i, message in enumerate(st.session_state.messages):
-
     with st.chat_message(message["role"]):
-
         st.markdown(message["content"])
 
         # Display citations
         if message.get("citations"):
-
             st.markdown("**Sources:**")
 
             for citation in message["citations"]:
-                st.caption(
-                    f'{citation.get("source")} | '
-                    f'Page: {citation.get("page")}'
-                )
+                st.caption(f"{citation.get('source')} | Page: {citation.get('page')}")
 
         # Display feedback buttons only for assistant messages
         if message["role"] == "assistant":
-
             question = ""
 
             if i > 0 and st.session_state.messages[i - 1]["role"] == "user":
@@ -121,23 +98,14 @@ for i, message in enumerate(st.session_state.messages):
 
             # Avoid saving feedback multiple times for one answer
             if message.get("feedback"):
-
-                st.caption(
-                    f'Feedback submitted: {message["feedback"]}'
-                )
+                st.caption(f"Feedback submitted: {message['feedback']}")
 
             else:
-
                 col1, col2 = st.columns(2)
 
                 with col1:
                     if st.button("👍", key=f"up_{i}"):
-
-                        save_feedback(
-                            question,
-                            message["content"],
-                            "positive"
-                        )
+                        save_feedback(question, message["content"], "positive")
 
                         message["feedback"] = "positive"
                         st.success("Positive feedback saved!")
@@ -145,12 +113,7 @@ for i, message in enumerate(st.session_state.messages):
 
                 with col2:
                     if st.button("👎", key=f"down_{i}"):
-
-                        save_feedback(
-                            question,
-                            message["content"],
-                            "negative"
-                        )
+                        save_feedback(question, message["content"], "negative")
 
                         message["feedback"] = "negative"
                         st.success("Negative feedback saved!")
@@ -162,25 +125,17 @@ for i, message in enumerate(st.session_state.messages):
 # --------------------------------
 
 if st.session_state.pending_approval:
-
-    st.warning(
-        "Human approval is required before marks calculation."
-    )
+    st.warning("Human approval is required before marks calculation.")
 
     col1, col2 = st.columns(2)
 
     with col1:
-
         if st.button("Approve"):
-
             try:
                 response = requests.post(
                     f"{BASE_URL}/agent",
-                    json={
-                        "thread_id": st.session_state.thread_id,
-                        "approval": True
-                    },
-                    timeout=120
+                    json={"thread_id": st.session_state.thread_id, "approval": True},
+                    timeout=120,
                 )
 
                 response.raise_for_status()
@@ -188,11 +143,9 @@ if st.session_state.pending_approval:
 
                 data = result.get("result", {}).get("data", {})
 
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": str(data),
-                    "citations": []
-                })
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": str(data), "citations": []}
+                )
 
                 st.session_state.pending_approval = False
                 st.rerun()
@@ -201,27 +154,24 @@ if st.session_state.pending_approval:
                 st.error(f"Approval failed: {e}")
 
     with col2:
-
         if st.button("Decline"):
-
             try:
                 response = requests.post(
                     f"{BASE_URL}/agent",
-                    json={
-                        "thread_id": st.session_state.thread_id,
-                        "approval": False
-                    },
-                    timeout=120
+                    json={"thread_id": st.session_state.thread_id, "approval": False},
+                    timeout=120,
                 )
 
                 response.raise_for_status()
                 result = response.json()
 
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": str(result.get("result", {})),
-                    "citations": []
-                })
+                st.session_state.messages.append(
+                    {
+                        "role": "assistant",
+                        "content": str(result.get("result", {})),
+                        "citations": [],
+                    }
+                )
 
                 st.session_state.pending_approval = False
                 st.rerun()
@@ -237,171 +187,135 @@ if st.session_state.pending_approval:
 prompt = st.chat_input("Ask anything about GATE...")
 
 if prompt:
-
     # Save user message
-    st.session_state.messages.append({
-        "role": "user",
-        "content": prompt
-    })
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant"), st.spinner("Processing your question..."):
+        try:
+            # ----------------------------
+            # RAG Mode
+            # ----------------------------
 
-        with st.spinner("Processing your question..."):
+            if mode == "RAG Mode":
+                response = requests.post(
+                    f"{BASE_URL}/ask", json={"question": prompt}, timeout=120
+                )
 
-            try:
+                response.raise_for_status()
+                result = response.json()
 
-                # ----------------------------
-                # RAG Mode
-                # ----------------------------
+                answer = result.get("answer", "No answer received.")
 
-                if mode == "RAG Mode":
+                citations = result.get("citations", [])
 
-                    response = requests.post(
-                        f"{BASE_URL}/ask",
-                        json={"question": prompt},
-                        timeout=120
+            # ----------------------------
+            # Agent Mode
+            # ----------------------------
+
+            else:
+                response = requests.post(
+                    f"{BASE_URL}/agent",
+                    json={
+                        "question": prompt,
+                        "thread_id": st.session_state.thread_id,
+                    },
+                    timeout=120,
+                )
+
+                response.raise_for_status()
+                result = response.json()
+
+                if result.get("status") == "approval_required":
+                    st.session_state.pending_approval = True
+
+                    answer = (
+                        "Your request requires human approval. "
+                        "Please approve or decline above."
                     )
 
-                    response.raise_for_status()
-                    result = response.json()
+                    citations = []
 
-                    answer = result.get(
-                        "answer",
-                        "No answer received."
-                    )
+                elif result.get("status") == "completed":
+                    agent_result = result.get("result", {})
+                    data = agent_result.get("data", {})
 
-                    citations = result.get("citations", [])
+                    if agent_result.get("tool") == "rag_search":
+                        answer = data.get("answer", "No answer received.")
 
-                # ----------------------------
-                # Agent Mode
-                # ----------------------------
-
-                else:
-
-                    response = requests.post(
-                        f"{BASE_URL}/agent",
-                        json={
-                            "question": prompt,
-                            "thread_id": st.session_state.thread_id
-                        },
-                        timeout=120
-                    )
-
-                    response.raise_for_status()
-                    result = response.json()
-
-                    if result.get("status") == "approval_required":
-
-                        st.session_state.pending_approval = True
-
-                        answer = (
-                            "Your request requires human approval. "
-                            "Please approve or decline above."
-                        )
-
-                        citations = []
-
-                    elif result.get("status") == "completed":
-
-                        agent_result = result.get("result", {})
-                        data = agent_result.get("data", {})
-
-                        if agent_result.get("tool") == "rag_search":
-
-                            answer = data.get(
-                                "answer",
-                                "No answer received."
-                            )
-
-                            citations = data.get("citations", [])
-
-                        else:
-
-                            answer = str(data or agent_result)
-                            citations = []
+                        citations = data.get("citations", [])
 
                     else:
-
-                        answer = str(result)
+                        answer = str(data or agent_result)
                         citations = []
 
-                # Display answer immediately
-                st.markdown(answer)
+                else:
+                    answer = str(result)
+                    citations = []
 
-                # Display citations
-                if citations:
+            # Display answer immediately
+            st.markdown(answer)
 
-                    st.markdown("**Sources:**")
+            # Display citations
+            if citations:
+                st.markdown("**Sources:**")
 
-                    for citation in citations:
-                        st.caption(
-                            f'{citation.get("source")} | '
-                            f'Page: {citation.get("page")}'
-                        )
+                for citation in citations:
+                    st.caption(
+                        f"{citation.get('source')} | Page: {citation.get('page')}"
+                    )
 
-                # Display feedback buttons immediately
-                col1, col2 = st.columns(2)
+            # Display feedback buttons immediately
+            col1, col2 = st.columns(2)
 
-                with col1:
-                    if st.button("👍", key="new_up"):
+            with col1:
+                if st.button("👍", key="new_up"):
+                    save_feedback(prompt, answer, "positive")
 
-                        save_feedback(
-                            prompt,
-                            answer,
-                            "positive"
-                        )
-
-                        # Update latest assistant message
-                        st.session_state.messages.append({
+                    # Update latest assistant message
+                    st.session_state.messages.append(
+                        {
                             "role": "assistant",
                             "content": answer,
                             "citations": citations,
-                            "feedback": "positive"
-                        })
+                            "feedback": "positive",
+                        }
+                    )
 
-                        st.success("Positive feedback saved!")
-                        st.rerun()
+                    st.success("Positive feedback saved!")
+                    st.rerun()
 
-                with col2:
-                    if st.button("👎", key="new_down"):
+            with col2:
+                if st.button("👎", key="new_down"):
+                    save_feedback(prompt, answer, "negative")
 
-                        save_feedback(
-                            prompt,
-                            answer,
-                            "negative"
-                        )
-
-                        st.session_state.messages.append({
+                    st.session_state.messages.append(
+                        {
                             "role": "assistant",
                             "content": answer,
                             "citations": citations,
-                            "feedback": "negative"
-                        })
+                            "feedback": "negative",
+                        }
+                    )
 
-                        st.success("Negative feedback saved!")
-                        st.rerun()
+                    st.success("Negative feedback saved!")
+                    st.rerun()
 
-                # Save answer if no feedback button was clicked
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": answer,
-                    "citations": citations
-                })
+            # Save answer if no feedback button was clicked
+            st.session_state.messages.append(
+                {"role": "assistant", "content": answer, "citations": citations}
+            )
 
-            except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException as e:
+            error_message = f"Backend connection failed: {e}"
 
-                error_message = f"Backend connection failed: {e}"
+            st.error(error_message)
 
-                st.error(error_message)
-
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": error_message,
-                    "citations": []
-                })
+            st.session_state.messages.append(
+                {"role": "assistant", "content": error_message, "citations": []}
+            )
 
 
 # --------------------------------
@@ -412,16 +326,9 @@ st.divider()
 
 st.header("🔍 What Changed in GATE 2027?")
 
-st.write(
-    "Compare the GATE 2026 and GATE 2027 "
-    "Computer Science syllabus."
-)
+st.write("Compare the GATE 2026 and GATE 2027 Computer Science syllabus.")
 
-DIFF_FILE = (
-    Path(__file__).resolve().parent.parent
-    / "Data"
-    / "cs_syllabus_diff.json"
-)
+DIFF_FILE = Path(__file__).resolve().parent.parent / "Data" / "cs_syllabus_diff.json"
 
 try:
     with open(DIFF_FILE, "r", encoding="utf-8") as file:
@@ -436,44 +343,30 @@ try:
 
     with col1:
         st.markdown("### GATE 2026")
-        st.markdown(
-            f"[📄 Open 2026 Syllabus]"
-            f"({diff_data['year_2026']['pdf']})"
-        )
+        st.markdown(f"[📄 Open 2026 Syllabus]({diff_data['year_2026']['pdf']})")
 
     with col2:
         st.markdown("### GATE 2027")
-        st.markdown(
-            f"[📄 Open 2027 Syllabus]"
-            f"({diff_data['year_2027']['pdf']})"
-        )
+        st.markdown(f"[📄 Open 2027 Syllabus]({diff_data['year_2027']['pdf']})")
 
     st.divider()
 
     # Display section-wise comparison
     for section in diff_data["sections"]:
-
         section_name = section["name"]
 
         # Page numbers verified from both PDFs
-        page = (
-            2 if "network" in section_name.lower()
-            else 1
-        )
+        page = 2 if "network" in section_name.lower() else 1
 
         with st.expander(section_name, expanded=False):
-
             left, right = st.columns(2)
 
             # Added topics
             with left:
-
                 st.markdown("### 🟢 Added in 2027")
 
                 if section["added"]:
-
                     for topic in section["added"]:
-
                         st.markdown(f"- {topic}")
 
                         st.caption(
@@ -486,15 +379,10 @@ try:
 
             # Removed topics
             with right:
-
-                st.markdown(
-                    "### 🔴 Removed / Not explicitly listed"
-                )
+                st.markdown("### 🔴 Removed / Not explicitly listed")
 
                 if section["removed"]:
-
                     for topic in section["removed"]:
-
                         st.markdown(f"- {topic}")
 
                         st.caption(
@@ -507,10 +395,7 @@ try:
 
             # Unchanged section
             if section["status"] == "unchanged":
-
-                st.success(
-                    "No wording changes identified."
-                )
+                st.success("No wording changes identified.")
 
     st.divider()
 
@@ -521,14 +406,9 @@ try:
     )
 
 except FileNotFoundError:
-
     st.error(
-        "Syllabus comparison JSON file not found. "
-        "Check Data/cs_syllabus_diff.json."
+        "Syllabus comparison JSON file not found. Check Data/cs_syllabus_diff.json."
     )
 
 except (json.JSONDecodeError, KeyError) as e:
-
-    st.error(
-        f"Could not load syllabus comparison: {e}"
-    )
+    st.error(f"Could not load syllabus comparison: {e}")

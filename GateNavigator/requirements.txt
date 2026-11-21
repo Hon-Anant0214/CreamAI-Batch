@@ -7,3 +7,11 @@ pandas
 scikit-learn
 groq
 python-dotenv
+pytest
+httpx==0.27.2
+ruff
+streamlit
+chromadb
+sentence-transformers
+langgraph
+pydantic

@@ -2,3 +2,5 @@
 .env.*
 !.env.example
 Cenv/
+# ChromaDB persistent database
+chroma_db/

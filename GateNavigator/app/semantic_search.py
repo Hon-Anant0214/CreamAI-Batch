@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 from sklearn.metrics.pairwise import cosine_similarity
@@ -14,7 +13,6 @@ def load_all_chunks():
     all_chunks = []
 
     for pdf_file in raw_folder.glob("*.pdf"):
-
         chunks = chunk_pdf(pdf_file)
         all_chunks.extend(chunks)
 
@@ -27,10 +25,7 @@ def semantic_search(question, chunks, chunk_embeddings, top_k=5):
     question_embedding = generate_embeddings([question])
 
     # Calculate cosine similarity
-    similarities = cosine_similarity(
-        question_embedding,
-        chunk_embeddings
-    )[0]
+    similarities = cosine_similarity(question_embedding, chunk_embeddings)[0]
 
     # Get indices of the most relevant chunks
     top_indices = similarities.argsort()[::-1][:top_k]
@@ -38,18 +33,18 @@ def semantic_search(question, chunks, chunk_embeddings, top_k=5):
     results = []
 
     for index in top_indices:
-
-        results.append({
-            "text": chunks[index]["text"],
-            "metadata": chunks[index]["metadata"],
-            "similarity": float(similarities[index])
-        })
+        results.append(
+            {
+                "text": chunks[index]["text"],
+                "metadata": chunks[index]["metadata"],
+                "similarity": float(similarities[index]),
+            }
+        )
 
     return results
 
 
 if __name__ == "__main__":
-
     print("Loading PDF documents...")
 
     chunks = load_all_chunks()
@@ -66,17 +61,11 @@ if __name__ == "__main__":
 
     print("\nSearching for:", question)
 
-    results = semantic_search(
-        question,
-        chunks,
-        chunk_embeddings,
-        top_k=5
-    )
+    results = semantic_search(question, chunks, chunk_embeddings, top_k=5)
 
     print("\nTop 5 Search Results:")
 
     for number, result in enumerate(results, start=1):
-
         print(f"\nResult {number}")
         print("Similarity:", round(result["similarity"], 4))
         print("Source:", result["metadata"]["source"])

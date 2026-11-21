@@ -383,3 +383,79 @@ Implemented a Streamlit chat interface connected to FastAPI.
 **Application Screenshot:**
 
 ![GATENavigator Day 10 Comparison](docs/screenshots/day10_comparison.png)
+
+## Run GATENavigator with Docker
+
+GATENavigator supports Docker Compose to run the FastAPI backend and Streamlit frontend together.
+
+### Prerequisites
+- Docker Desktop installed and running.
+- Docker Compose available.
+- A valid Groq API key.
+
+### Configuration
+
+Create a `.env` file in the project root:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+GROQ_MODEL=openai/gpt-oss-20b
+```
+
+Replace `your_groq_api_key` with your actual API key. Never commit `.env` to GitHub.
+
+### Build and Start
+
+Run these commands from the project root:
+
+```bash
+docker compose up --build -d
+```
+
+### Access the Application
+
+- **Streamlit UI:** http://localhost:8501
+- **FastAPI API:** http://localhost:8000
+- **API Documentation:** http://localhost:8000/docs
+- **Health Check:** http://localhost:8000/health
+
+### Useful Docker Commands
+
+Start containers:
+
+```bash
+docker compose up -d
+```
+
+View running containers:
+
+```bash
+docker compose ps
+```
+
+View logs:
+
+```bash
+docker compose logs -f
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+Rebuild and restart:
+
+```bash
+docker compose up --build -d
+```
+
+### Docker Architecture
+
+- **API Container:** Runs the FastAPI backend on port 8000.
+- **UI Container:** Runs the Streamlit frontend on port 8501.
+- **ChromaDB:** Stores vector embeddings using a persistent volume.
+- **Data:** Project data is mounted into the containers.
+
+Both services are managed through `docker-compose.yml`.

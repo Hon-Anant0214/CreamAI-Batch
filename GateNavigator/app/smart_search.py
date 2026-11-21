@@ -1,4 +1,3 @@
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -13,9 +12,11 @@ def smart_search(records, query, top_n=5):
 
     for record in records:
         text = (
-            record["paper_code"] + " " +
-            record["paper_name"] + " " +
-            " ".join(record["syllabus_sections"])
+            record["paper_code"]
+            + " "
+            + record["paper_name"]
+            + " "
+            + " ".join(record["syllabus_sections"])
         )
         documents.append(text)
 
@@ -24,10 +25,7 @@ def smart_search(records, query, top_n=5):
     vectors = vectorizer.fit_transform(documents + [query])
 
     # Compare query with every record
-    scores = cosine_similarity(
-        vectors[-1],
-        vectors[:-1]
-    ).flatten()
+    scores = cosine_similarity(vectors[-1], vectors[:-1]).flatten()
 
     # Sort records by similarity score
     ranked_indices = scores.argsort()[::-1]

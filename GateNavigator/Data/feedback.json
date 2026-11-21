@@ -10,5 +10,11 @@
         "answer": "The CS syllabus covers the following topics:\n\n- **Discrete Mathematics**: propositional and first\u2011order logic, sets, relations, functions, partial orders, lattices, monoids, groups  \n- **Graphs**: connectivity, matching, colouring  \n- **Combinatorics**: counting, recurrence relations, generating functions  \n- **Linear Algebra**: matrices, determinants, systems of linear equations, eigenvalues and eigenvectors, LU decomposition  \n- **Calculus**: limits (and related concepts)  \n\n[Source: CS_syllabus.pdf, Page: 1]",
         "feedback": "positive",
         "timestamp": "2026-11-18T22:03:42.539719"
+    },
+    {
+        "question": "Explain the important topics in the GATE Computer Science syllabus.",
+        "answer": "**Important topics in the GATE Computer Science syllabus**\n\nThe GATE Computer Science (CS) syllabus is organized mainly under **Engineering Mathematics**. The key areas that students should focus on are:\n\n| Area | Core Topics |\n|------|-------------|\n| **Discrete Mathematics** | \u2022 Propositional and first\u2011order logic<br>\u2022 Sets, relations, and functions<br>\u2022 Partial orders and lattices<br>\u2022 Monoids and groups<br>\u2022 Graph theory \u2013 connectivity, matching, and colouring |\n| **Combinatorics** | \u2022 Counting principles<br>\u2022 Recurrence relations<br>\u2022 Generating functions |\n| **Linear Algebra** | \u2022 Matrices and determinants<br>\u2022 Systems of linear equations<br>\u2022 Eigenvalues and eigenvectors<br>\u2022 LU decomposition |\n| **Calculus** | \u2022 Limits (and related concepts) |\n\nThese topics form the backbone of the CS syllabus and are frequently tested in the GATE exam. Mastery of these subjects will provide a strong foundation for tackling the quantitative and analytical questions in the paper.  \n\n[Source: CS_syllabus.pdf, Page: 1]",
+        "feedback": "positive",
+        "timestamp": "2026-11-21T11:11:30.359717"
     }
 ]
