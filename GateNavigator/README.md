@@ -174,3 +174,4 @@ To rebuild the vector database:
 ```bash
 python -m app.vectorstore
 ```
+- Backend API: https://your-render-backend-url.onrender.com

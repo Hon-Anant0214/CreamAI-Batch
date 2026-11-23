@@ -1,29 +1,30 @@
+
 import json
 from pathlib import Path
 
-import chromadb
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 from app.chunking import chunk_pdf
-from app.embed import generate_embeddings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 RAW_FOLDER = BASE_DIR / "Data" / "Raw"
 RECORDS_FILE = BASE_DIR / "Data" / "records.json"
-DB_FOLDER = BASE_DIR / "chroma_db"
 
-client = chromadb.PersistentClient(path=str(DB_FOLDER))
-
-collection = client.get_or_create_collection(
-    name="gatenavigator_documents", metadata={"hnsw:space": "cosine"}
-)
+# Cached document chunks and TF-IDF matrix
+_chunks = []
+_vectorizer = None
+_tfidf_matrix = None
 
 
-def load_all_chunks(chunk_size=500, overlap=100):
+def load_all_chunks():
+    """Load PDF chunks and GATE paper records."""
+
     all_chunks = []
 
     # Load PDF documents
     for pdf_file in RAW_FOLDER.glob("*.pdf"):
-        all_chunks.extend(chunk_pdf(pdf_file, chunk_size=chunk_size, overlap=overlap))
+        all_chunks.extend(chunk_pdf(pdf_file))
 
     # Load GATE paper records
     if RECORDS_FILE.exists():
@@ -55,80 +56,78 @@ def load_all_chunks(chunk_size=500, overlap=100):
     return all_chunks
 
 
-def index_documents(chunk_size=500, overlap=100):
-    global collection
+def build_index():
+    """Build the TF-IDF index once and cache it."""
 
-    print("Loading PDF documents and paper records...")
+    global _chunks, _vectorizer, _tfidf_matrix
 
-    chunks = load_all_chunks(chunk_size=chunk_size, overlap=overlap)
-
-    if not chunks:
-        print("No document chunks found.")
+    if _tfidf_matrix is not None:
         return
 
-    texts = [chunk["text"] for chunk in chunks]
-    documents = texts
-    metadatas = [chunk["metadata"] for chunk in chunks]
+    print("Loading PDF documents and GATE records...")
 
-    print("Generating embeddings...")
-    embeddings = generate_embeddings(texts)
+    _chunks = load_all_chunks()
 
-    ids = []
+    if not _chunks:
+        print("No document chunks found.")
+        _vectorizer = None
+        _tfidf_matrix = None
+        return
 
-    for i, chunk in enumerate(chunks):
-        if chunk["metadata"]["source"] == "records.json":
-            paper_code = chunk["metadata"]["paper_code"]
-            ids.append(f"record_{paper_code}")
-        else:
-            ids.append(f"pdf_chunk_{i}")
+    documents = [chunk["text"] for chunk in _chunks]
 
-    # Recreate the collection
-    client.delete_collection(name="gatenavigator_documents")
+    print("Building TF-IDF index...")
 
-    collection = client.get_or_create_collection(
-        name="gatenavigator_documents", metadata={"hnsw:space": "cosine"}
+    _vectorizer = TfidfVectorizer(
+        stop_words="english",
+        max_features=20000,
     )
 
-    print("Saving documents to ChromaDB...")
-
-    collection.upsert(
-        ids=ids,
-        documents=documents,
-        metadatas=metadatas,
-        embeddings=embeddings.tolist(),
-    )
+    _tfidf_matrix = _vectorizer.fit_transform(documents)
 
     print("Indexing completed!")
-    print("Total indexed chunks:", collection.count())
+    print("Total indexed chunks:", len(_chunks))
 
 
 def search_documents(question, top_k=5):
-    question_embedding = generate_embeddings([question])
+    """Retrieve relevant chunks using TF-IDF and cosine similarity."""
 
-    results = collection.query(
-        query_embeddings=question_embedding.tolist(),
-        n_results=min(top_k, collection.count()),
-        include=["documents", "metadatas", "distances"],
-    )
+    build_index()
 
-    search_results = []
+    if _tfidf_matrix is None or not question.strip():
+        return []
 
-    for i in range(len(results["ids"][0])):
-        search_results.append(
+    question_vector = _vectorizer.transform([question])
+
+    scores = cosine_similarity(
+        question_vector,
+        _tfidf_matrix,
+    ).flatten()
+
+    top_indices = scores.argsort()[::-1][:top_k]
+
+    results = []
+
+    for index in top_indices:
+        if scores[index] <= 0:
+            continue
+
+        results.append(
             {
-                "text": results["documents"][0][i],
-                "metadata": results["metadatas"][0][i],
-                "similarity": 1 - results["distances"][0][i],
+                "text": _chunks[index]["text"],
+                "metadata": _chunks[index]["metadata"],
+                "similarity": float(scores[index]),
             }
         )
 
-    return search_results
+    return results
 
 
 if __name__ == "__main__":
-    index_documents()
-
-    question = "What is the paper code for Computer Science and Information Technology?"
+    question = (
+        "What is the paper code for Computer Science "
+        "and Information Technology?"
+    )
 
     print("\nSearching:", question)
 
