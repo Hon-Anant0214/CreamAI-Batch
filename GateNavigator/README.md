@@ -175,3 +175,47 @@ To rebuild the vector database:
 python -m app.vectorstore
 ```
 - Backend API: https://your-render-backend-url.onrender.com
+
+## Day 13 – Production Hardening
+
+### Production Features
+
+#### 1. LLM Monitoring
+- Added logging for LLM request latency.
+- Tracks prompt tokens, completion tokens and total tokens.
+- Logs successful and failed LLM requests.
+- Uses Python logging for monitoring.
+
+#### 2. Response Caching
+- Implemented response caching using Python `lru_cache`.
+- Maximum cache capacity: 100 entries.
+- Identical prompts reuse previously generated responses.
+- Reduces unnecessary LLM API calls.
+
+#### 3. Input Validation
+- Added Pydantic validation to API request models.
+- Maximum question length: 2,000 characters.
+- Empty questions are rejected where a question is required.
+- Invalid inputs are automatically rejected with HTTP 422 responses.
+
+#### 4. Prompt Injection Protection
+- Added security instructions to the RAG system prompt.
+- Retrieved document content is treated as untrusted data.
+- The assistant is instructed to ignore malicious instructions inside retrieved documents.
+- Added an automated prompt-injection test.
+
+### Test Results
+
+| Test | Result |
+|---|---|
+| Complete automated test suite | 21 passed |
+| Input validation tests | 5 passed |
+| Cache verification | 1 hit, 1 miss |
+| Prompt-injection test | Passed |
+
+### Production Limitations
+- Response caching is in-memory and resets when the application restarts.
+- Cache entries are limited to 100.
+- Prompt-injection instructions provide a defensive layer but cannot guarantee complete protection.
+- Actual LLM latency and token usage depend on the model, prompt size and API response.
+

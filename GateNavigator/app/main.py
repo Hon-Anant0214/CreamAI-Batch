@@ -4,7 +4,7 @@ from typing import Literal
 
 from fastapi import FastAPI, HTTPException
 from langgraph.types import Command
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.graph import agent_graph
 from app.llm import generate_response
@@ -20,22 +20,28 @@ app = FastAPI(title="GATENavigator API")
 
 
 class QuestionRequest(BaseModel):
-    question: str
+    question: str = Field(
+        min_length=1,
+        max_length=2000,
+        description="Student question (maximum 2000 characters)",
+    )
 
 
 class ChatRequest(BaseModel):
-    question: str
+    question: str = Field(
+        min_length=1,
+        max_length=2000,
+        description="Student question (maximum 2000 characters)",
+    )
     task: Literal["explain", "syllabus"] = "syllabus"
     prompt_version: Literal["v1", "v2"] = "v2"
 
 
 class AgentRequest(BaseModel):
-    question: str | None = None
+    question: str | None = Field(default=None, max_length=2000)
     marks_data: dict[str, int] | None = None
     thread_id: str = "gate-api-session-1"
     approval: bool | None = None
-
-
 # ---------------------------------
 # Paths and Prompt Loading
 # ---------------------------------
