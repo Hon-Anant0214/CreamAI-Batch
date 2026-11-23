@@ -1,3 +1,6 @@
+[![GATENavigator CI](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/ci.yml)
+
+
 product_name = GATENavigator
 User = Students preparing for the GATE examination.
 Problem:-Students struggle to find organized study materials, previous-year questions and preparation guidance.
