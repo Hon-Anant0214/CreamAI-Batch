@@ -1,0 +1,9 @@
+Cenv/
+GateNavigator/Cenv/
+GateNavigator/chroma_db/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.pytest_cache/
