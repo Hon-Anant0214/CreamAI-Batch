@@ -11,9 +11,18 @@ from app.llm import generate_response
 from app.rag import answer_question
 from app.records import get_by_id, load_records
 from app.smart_search import smart_search
-from app.vectorstore import search_documents
+from app.vectorstore import collection, index_documents, search_documents
 
 app = FastAPI(title="GATENavigator API")
+
+
+@app.on_event("startup")
+def initialize_database():
+    if collection.count() == 0:
+        print("ChromaDB is empty. Starting document indexing...")
+        index_documents()
+    else:
+        print("ChromaDB already contains indexed documents.")
 
 
 # ---------------------------------

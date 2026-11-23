@@ -4,3 +4,6 @@
 Cenv/
 # ChromaDB persistent database
 chroma_db/
+# Python cache files
+__pycache__/
+*.py[cod]
