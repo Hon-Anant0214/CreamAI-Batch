@@ -16,7 +16,7 @@ st.set_page_config(page_title="GATENavigator", page_icon="🎓", layout="centere
 st.title("🎓 GATENavigator")
 st.caption("Your AI-powered GATE preparation assistant")
 
-BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
+BASE_URL = os.getenv("API_BASE_URL","https://gatenavigator-api-latest.onrender.com").rstrip("/")
 
 FEEDBACK_FILE = Path(__file__).resolve().parent.parent / "Data" / "feedback.json"
 

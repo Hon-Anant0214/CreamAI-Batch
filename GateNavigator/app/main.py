@@ -12,6 +12,7 @@ from app.rag import answer_question
 from app.records import get_by_id, load_records
 from app.smart_search import smart_search
 from app.vectorstore import search_documents
+
 app = FastAPI(title="GATENavigator API")
 
 # ---------------------------------

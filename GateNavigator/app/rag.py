@@ -1,5 +1,6 @@
+
 from app.llm import generate_response
-from app.vectorstore import search_documents
+from app.vectorstore import load_all_chunks, search_documents
 
 SYSTEM_PROMPT = """
 You are GATENavigator, an AI assistant that helps students
@@ -26,48 +27,79 @@ Answering instructions:
 """
 
 
+def identify_paper_code(question):
+    """Identify a GATE paper code from a question."""
+
+    question_lower = question.lower()
+
+    aliases = {
+        "CS": [
+            "computer science",
+            "computer science and information technology",
+        ],
+        "DA": [
+            "data science",
+            "data science and artificial intelligence",
+        ],
+        "EC": [
+            "electronics and communication",
+        ],
+        "EE": [
+            "electrical engineering",
+        ],
+        "ME": [
+            "mechanical engineering",
+        ],
+        "CE": [
+            "civil engineering",
+        ],
+    }
+
+    for code, names in aliases.items():
+        if any(name in question_lower for name in names):
+            return code
+
+    return None
+
+
 def retrieve_context(question, top_k=5):
-    """Retrieve relevant chunks and prioritize the matching syllabus."""
+    """Retrieve relevant document chunks."""
 
-    # First search using the original question.
-    initial_results = search_documents(question, top_k=10)
+    paper_code = identify_paper_code(question)
 
-    # Identify the paper code from a matching paper record.
-    paper_code = None
+    syllabus_question = any(
+        word in question.lower()
+        for word in ["syllabus", "topics", "subject areas", "units"]
+    )
 
-    for result in initial_results:
-        metadata = result["metadata"]
+    results = []
 
-        if metadata.get("source") == "records.json":
-            paper_code = metadata.get("paper_code")
-            if paper_code:
-                break
+    # Directly retrieve the correct syllabus sections.
+    if paper_code and syllabus_question:
+        all_chunks = load_all_chunks()
 
-    # If a paper code is found, perform an expanded search.
-    if paper_code:
-        expanded_query = (
-            f"GATE {paper_code} Computer Science Information Technology syllabus topics"
-            if paper_code == "CS"
-            else f"GATE {paper_code} syllabus topics"
-        )
-
-        expanded_results = search_documents(expanded_query, top_k=10)
-
-        # Put the matching syllabus PDF first.
-        matching_pdf = [
-            r
-            for r in expanded_results
-            if r["metadata"].get("source", "").startswith(f"{paper_code}_")
+        matching_chunks = [
+            chunk
+            for chunk in all_chunks
+            if chunk["metadata"].get("source", "").lower()
+            == f"{paper_code.lower()}_syllabus.pdf"
+            and chunk["metadata"].get("unit", "General") != "General"
         ]
 
-        other_results = [r for r in expanded_results if r not in matching_pdf]
+        results = [
+            {
+                "text": chunk["text"],
+                "metadata": chunk["metadata"],
+                "similarity": 1.0,
+            }
+            for chunk in matching_chunks
+        ]
 
-        results = matching_pdf + other_results
+    # Use normal TF-IDF retrieval for other questions.
+    if not results:
+        results = search_documents(question, top_k=top_k)
 
-    else:
-        results = initial_results
-
-    results = results[:top_k]
+    results = results[:max(top_k, len(results))]
 
     context_parts = []
     citations = []
@@ -86,7 +118,11 @@ def retrieve_context(question, top_k=5):
             f"Content: {result['text']}"
         )
 
-        citation = {"source": source, "page": page, "title": title}
+        citation = {
+            "source": source,
+            "page": page,
+            "title": title,
+        }
 
         if citation not in citations:
             citations.append(citation)
@@ -99,7 +135,10 @@ def retrieve_context(question, top_k=5):
 def answer_question(question, top_k=5):
     """Generate a grounded answer with document citations."""
 
-    context, citations, retrieved_count = retrieve_context(question, top_k=top_k)
+    context, citations, retrieved_count = retrieve_context(
+        question,
+        top_k=top_k,
+    )
 
     user_prompt = f"""
 Retrieved document context:
@@ -116,7 +155,6 @@ I don't know
 
     answer = generate_response(SYSTEM_PROMPT, user_prompt).strip()
 
-    # Do not attach citations to an unanswerable response.
     if answer.lower() == "i don't know":
         answer = "I don't know"
         citations = []
@@ -130,9 +168,9 @@ I don't know
 
 
 if __name__ == "__main__":
-    question = "What topics are included in the Computer Science syllabus?"
-
-    print("Question:", question)
+    question = (
+        "List the topics available in the Computer Science syllabus."
+    )
 
     result = answer_question(question)
 
@@ -140,7 +178,6 @@ if __name__ == "__main__":
     print(result["answer"])
 
     print("\nCitations:")
-
     for citation in result["citations"]:
         print(f"- {citation['source']}, Page {citation['page']}")
 

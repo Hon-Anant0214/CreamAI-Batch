@@ -104,7 +104,21 @@ def search_documents(question, top_k=5):
         _tfidf_matrix,
     ).flatten()
 
-    top_indices = scores.argsort()[::-1][:top_k]
+    # Rank by similarity, preferring newer revisions when scores are equal.
+    ranked_indices = sorted(
+    range(len(scores)),
+    key=lambda index: (
+        scores[index],
+        (
+    _chunks[index]["metadata"].get("revision_date", "")
+    if _chunks[index]["metadata"].get("revision_date", "") != "unknown"
+    else ""
+),
+    ),
+    reverse=True,
+)
+
+    top_indices = ranked_indices[:top_k]
 
     results = []
 
