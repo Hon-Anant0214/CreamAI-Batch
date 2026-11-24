@@ -1,4 +1,4 @@
-[![Tests](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/WORKFLOW_FILE.yml/badge.svg)](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/WORKFLOW_FILE.yml)
+[![Tests](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/ci.yml)
 
 
 # GATENavigator – AI-Powered GATE Preparation Assistant
@@ -711,3 +711,8 @@ Its main objective is to make GATE examination information easier for students t
 **Project:** GATENavigator  
 **Repository:** CreamAI-Batch  
 **Branch:** main
+
+
+https://gatenavigator-api-latest.onrender.com?utm_source=chatgpt.com
+
+https://gatenavigator-api-latest.onrender.com/health?utm_source=chatgpt.com
