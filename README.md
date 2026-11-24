@@ -1,3 +1,6 @@
+[![Tests](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/WORKFLOW_FILE.yml/badge.svg)](https://github.com/Hon-Anant0214/CreamAI-Batch/actions/workflows/WORKFLOW_FILE.yml)
+
+
 # GATENavigator – AI-Powered GATE Preparation Assistant
 
 GATENavigator is an AI-powered educational assistant designed to help students preparing for the Graduate Aptitude Test in Engineering (GATE).
